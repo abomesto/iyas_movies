@@ -28,7 +28,7 @@ res.send("Welcome to MyFlix")
 })
 
 //Get All Movies after authenticating user
-app.get("/movies", passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get("/movies",  passport.authenticate('jwt', { session: false }), async (req, res) => {
    await Movies.find()
     .then((movies) => {
         res.status(201).json(movies);
@@ -41,7 +41,7 @@ app.get("/movies", passport.authenticate('jwt', { session: false }), async (req,
     
 // READ movie by title
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.findOne({ Title: req.params.title })
+  await Movies.findOne({ title: req.params.title })
       .then((movie) => {
           res.json(movie);
       })
@@ -51,11 +51,12 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
       });
 });
 
+
 // READ genre by name
 app.get('/movies/genres/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.findOne({ 'Genre.Name': req.params.genreName })
+  await Movies.findOne({ 'genre.name': req.params.genreName })
   .then((movie) => {
-      res.json(movie.Genre);
+      res.json(movie.genre);
   })
   .catch((err) => {
       console.error(err);
@@ -63,11 +64,12 @@ app.get('/movies/genres/:genreName', passport.authenticate('jwt', { session: fal
   });
 });
 
+
 // READ director by name
-app.get('/movies/directors/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.findOne({ 'Director.Name': req.params.directorName })
+app.get('/movies/directors/:directorName', async (req, res) => {
+  await Movies.findOne({ 'director.Name': req.params.directorName })
       .then((movie) => {
-          res.json(movie.Director);
+          res.json(movie.director);
       })
       .catch((err) => {
           console.error(err);
