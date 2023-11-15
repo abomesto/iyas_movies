@@ -75,7 +75,7 @@ app.get(
   }
 );
 
-// READ genre by name
+// READ Movies by Genre Name
 app.get(
   "/movies/genres/:genreName",
   passport.authenticate("jwt", { session: false }),
@@ -91,9 +91,9 @@ app.get(
   }
 );
 
-// READ director by name
+// READ Movies director by name
 app.get("/movies/directors/:directorName", async (req, res) => {
-  await Movies.find({ "director.Name": req.params.directorName })
+  await Movies.find({ "director.name": req.params.directorName })
     .then((movies) => {
       res.json(movies);
     })
